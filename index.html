@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lucid Music Suite · produce, perform, plug in</title>
+  <meta name="description" content="The Lucid Music Suite: LucidProducer, the agentic DAW; LucidPerformer, live performance with an AI agent; and Lucid Essentials, 47 audio plugins.">
+  <meta property="og:title" content="Lucid Music Suite · produce, perform, plug in">
+  <meta property="og:description" content="An agentic DAW, a live instrument played with an AI agent, and 47 audio plugins.">
+  <meta property="og:image" content="img/producer.jpg">
+  <link rel="icon" type="image/png" href="img/favicon.png">
+  <style>
+    :root {
+      --bg: #141516;
+      --bg-raised: #1c1e20;
+      --bg-card: #212427;
+      --line: #2e3236;
+      --text: #e6e8ea;
+      --text-dim: #a2a8ae;
+      --accent: #b9c2cb;
+      --accent-dim: rgba(185, 194, 203, 0.14);
+      --radius: 10px;
+      --max: 1120px;
+      --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    code { font-family: var(--mono); font-size: 0.88em; background: var(--bg-card); padding: 0.1em 0.35em; border-radius: 4px; }
+    img { max-width: 100%; height: auto; display: block; }
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 0 16px; }
+
+    nav { position: sticky; top: 0; z-index: 10; background: rgba(20, 21, 22, 0.88); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+    nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 56px; gap: 16px; }
+    nav .brand { display: flex; align-items: center; gap: 10px; color: var(--text); font-weight: 600; letter-spacing: 0.02em; }
+    nav .brand img { width: 28px; height: 28px; }
+    nav ul { display: flex; gap: 22px; list-style: none; margin: 0; padding: 0; font-size: 15px; }
+    nav ul a { color: var(--text-dim); }
+    nav ul a:hover { color: var(--text); text-decoration: none; }
+
+    header.hero { padding: 64px 0 40px; text-align: center; background: radial-gradient(ellipse at 50% 0%, rgba(185, 194, 203, 0.12), transparent 60%); }
+    .hero .logo { width: min(340px, 72vw); margin: 0 auto 8px; }
+    .hero h1 { font-size: clamp(30px, 5vw, 48px); line-height: 1.15; margin: 16px 0 14px; letter-spacing: -0.01em; }
+    .hero h1 span { color: var(--accent); }
+    .hero p.lead { font-size: clamp(17px, 2.2vw, 20px); color: var(--text-dim); max-width: 760px; margin: 0 auto; }
+    .badges { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 26px 0 0; padding: 0; list-style: none; }
+    .badges li { font-size: 13px; border: 1px solid var(--line); background: var(--bg-raised); color: var(--text-dim); padding: 4px 12px; border-radius: 999px; }
+    .badges li.status { border-color: rgba(214, 158, 46, 0.5); color: #e6b34e; }
+    .hero-shot { margin: 44px auto 0; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55); }
+
+    section { padding: 72px 0; border-top: 1px solid var(--line); }
+    section h2 { font-size: clamp(24px, 3.4vw, 32px); margin: 0 0 10px; letter-spacing: -0.01em; }
+    section p.intro { color: var(--text-dim); max-width: 760px; margin: 0 0 36px; }
+
+    .grid { display: grid; gap: 18px; grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr)); }
+    .card { background: var(--bg-raised); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; }
+    .card h3 { margin: 0 0 8px; font-size: 18px; }
+    .card p { margin: 0; color: var(--text-dim); font-size: 15.5px; }
+    .card .tag { display: inline-block; font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin-bottom: 8px; }
+
+    .split { display: grid; gap: 40px; grid-template-columns: 1fr 1fr; align-items: center; }
+    .split > * { min-width: 0; }
+    pre.term { margin: 0; background: #0d0e0f; border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px; overflow-x: auto; font: 13.5px/1.7 var(--mono); color: #cfd4d8; }
+    pre.term .c { color: #6b737a; }
+    pre.term .p { color: var(--accent); }
+    ul.checks { list-style: none; padding: 0; margin: 0; }
+    ul.checks li { padding-left: 26px; position: relative; margin: 0 0 12px; color: var(--text-dim); }
+    ul.checks li strong { color: var(--text); }
+    ul.checks li::before { content: ""; position: absolute; left: 4px; top: 0.6em; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 10px var(--accent); }
+
+    .gallery { display: grid; gap: 18px; grid-template-columns: repeat(auto-fill, minmax(min(340px, 100%), 1fr)); }
+    figure { margin: 0; background: var(--bg-raised); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+    figure img { width: 100%; cursor: zoom-in; }
+    figcaption { padding: 12px 16px; font-size: 14.5px; color: var(--text-dim); }
+
+    .stack { display: grid; gap: 56px; }
+    .split.flip > :first-child { order: 2; }
+    .facts { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 0; padding: 0; list-style: none; }
+    .facts li { font-size: 13.5px; padding: 3px 10px; border-radius: 6px; background: var(--accent-dim); color: var(--accent); font-family: var(--mono); }
+
+    .notice { background: var(--bg-raised); border: 1px solid var(--line); border-left: 3px solid var(--accent); border-radius: var(--radius); padding: 24px 26px; }
+    .notice h3 { margin: 0 0 6px; }
+    .notice p { margin: 0; color: var(--text-dim); }
+
+    footer { border-top: 1px solid var(--line); padding: 40px 0 56px; color: var(--text-dim); font-size: 15px; }
+    footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 18px; align-items: center; }
+    footer .author { display: flex; align-items: center; gap: 12px; }
+    footer .li { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg-raised); color: var(--text); }
+    footer .li:hover { border-color: var(--accent); text-decoration: none; }
+    footer .li svg { width: 18px; height: 18px; fill: #0a66c2; background: #fff; border-radius: 3px; }
+    footer small { display: block; width: 100%; font-size: 13px; color: #7a8187; }
+
+    dialog { padding: 0; border: none; background: transparent; max-width: 96vw; max-height: 94vh; }
+    dialog::backdrop { background: rgba(0, 0, 0, 0.85); }
+    dialog img { max-height: 92vh; width: auto; border-radius: 8px; cursor: zoom-out; }
+
+    @media (max-width: 820px) {
+      .split { grid-template-columns: 1fr; }
+      .split.flip > :first-child { order: 0; }
+      nav ul { display: none; }
+      .gallery { grid-template-columns: 1fr; }
+      .grid { grid-template-columns: 1fr; }
+      section { padding: 56px 0; }
+    }
+  
+    :root { --producer: #3fd8dc; --performer: #c07bff; --essentials: #b6ff00; }
+    .hero h1 .p1 { color: var(--producer); } .hero h1 .p2 { color: var(--performer); } .hero h1 .p3 { color: var(--essentials); }
+    .trio { display: flex; justify-content: center; gap: clamp(8px, 3vw, 32px); margin: 0 auto 28px; }
+    .trio img { width: min(210px, 29vw); }
+    .wordmark { font-size: 15px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--text-dim); margin: 0; }
+    .products { display: grid; gap: 22px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .product { background: var(--bg-raised); border: 1px solid var(--line); border-top: 3px solid var(--c); border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; }
+    .product > img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; }
+    .product .body { padding: 22px; display: flex; flex-direction: column; flex: 1; }
+    .product h3 { margin: 0 0 2px; font-size: 21px; }
+    .product .role { color: var(--c); font-size: 14.5px; margin: 0 0 12px; }
+    .product p.text { margin: 0 0 16px; color: var(--text-dim); font-size: 15.5px; }
+    .product ul { margin: 0 0 20px; padding-left: 18px; color: var(--text-dim); font-size: 14.5px; }
+    .product a.more { margin-top: auto; color: var(--c); font-weight: 600; }
+    .flow { display: grid; gap: 18px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    @media (max-width: 900px) { .products, .flow { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#top"><img src="img/favicon.png" alt="">Lucid Music Suite</a>
+    <ul>
+      <li><a href="#products">Products</a></li>
+      <li><a href="#together">How they connect</a></li>
+      <li><a href="#about">About</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="trio">
+      <img src="img/logo-producer.png" alt="LucidProducer logo">
+      <img src="img/logo-performer.png" alt="LucidPerformer logo">
+      <img src="img/logo-essentials.png" alt="Lucid Essentials logo">
+    </div>
+    <p class="wordmark">Lucid Music Suite</p>
+    <h1><span class="p1">Produce</span>, <span class="p2">perform</span>, <span class="p3">plug in</span></h1>
+    <p class="lead">
+      Three music programs that people and AI agents use together: a DAW to make a track, a live
+      instrument to play a set, and a collection of plugins that give both their sound.
+    </p>
+    <ul class="badges">
+      <li>Native desktop apps</li>
+      <li>macOS · Apple Silicon</li>
+      <li>CLI and MCP in both apps</li>
+      <li class="status">Pre-release</li>
+    </ul>
+  </div>
+</header>
+
+<section id="products">
+  <div class="wrap">
+    <h2>Three products</h2>
+    <p class="intro">Each one has its own page and works without the other two.</p>
+    <div class="products">
+      <article class="product" style="--c:var(--producer)">
+        <img src="img/producer.jpg" alt="LucidProducer playing a rock demo with the mixer open" loading="lazy">
+        <div class="body">
+          <h3>LucidProducer</h3>
+          <p class="role">The agentic DAW</p>
+          <p class="text">A digital audio workstation written from scratch in Rust, which people and
+            agents drive with the same commands.</p>
+          <ul>
+            <li>Tracks, piano roll, mixer, automation and WAV bounce</li>
+            <li>An MCP server and a CLI</li>
+            <li>Hosts Audio Unit, VST3 and CLAP plugins</li>
+          </ul>
+          <a class="more" href="https://ai-guru.github.io/lucidproducer-site/">LucidProducer page →</a>
+        </div>
+      </article>
+      <article class="product" style="--c:var(--performer)">
+        <img src="img/performer.jpg" alt="LucidPerformer playing a set in its clip grid, with scenes and macro knobs" loading="lazy">
+        <div class="body">
+          <h3>LucidPerformer</h3>
+          <p class="role">Live performance with an agent</p>
+          <p class="text">A clip grid with scenes and macros that you and an agent play together,
+            with every move landing on the beat.</p>
+          <ul>
+            <li>Quantized launches and live-coded patterns</li>
+            <li>A Loudness Guard that agents cannot raise</li>
+            <li>A History panel of what was just played</li>
+          </ul>
+          <a class="more" href="https://ai-guru.github.io/lucidperformer-site/">LucidPerformer page →</a>
+        </div>
+      </article>
+      <article class="product" style="--c:var(--essentials)">
+        <img src="img/essentials.jpg" alt="The Lucid EQ plugin editor with its response curve" loading="lazy">
+        <div class="body">
+          <h3>Lucid Essentials</h3>
+          <p class="role">47 audio plugins</p>
+          <p class="text">Instruments, effects, MIDI tools and meters with one generated interface,
+            as VST3 and Audio Unit.</p>
+          <ul>
+            <li>Synths, physical models, samplers and drums</li>
+            <li>EQ, dynamics, space, modulation and drive</li>
+            <li>Runs in any DAW that loads those formats</li>
+          </ul>
+          <a class="more" href="https://ai-guru.github.io/lucidessentials-site/">Lucid Essentials page →</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="together">
+  <div class="wrap">
+    <h2>How they connect</h2>
+    <p class="intro">The two apps share a project format and the same plugins, so work moves between them.</p>
+    <div class="flow">
+      <div class="card"><span class="tag">Sound</span><h3>Essentials plays in both apps</h3>
+        <p>LucidProducer and LucidPerformer both list Lucid Essentials first in their plugin
+          menus. Without it, they fall back to their original built-ins, so projects still play.</p></div>
+      <div class="card"><span class="tag">Stage to studio</span><h3>Take a performance home</h3>
+        <p>LucidPerformer exports a performance as a <code>.lucidproj</code>: clip plays become
+          regions, parameter moves become automation, and LucidProducer opens the result.</p></div>
+      <div class="card"><span class="tag">Agents</span><h3>The same idea throughout</h3>
+        <p>Both apps come with a CLI and an MCP server, and Lucid Essentials has its own command
+          line tool. An agent can work with all three from a terminal.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap">
+    <div class="notice">
+      <h3>Not available for download yet</h3>
+      <p>
+        All three are in pre-release testing on macOS. Public builds will follow.
+      </p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="author">Made by Dr. Tristan Behrens</div>
+    <a class="li" href="https://www.linkedin.com/in/dr-tristan-behrens-734967a2/" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>
+      Connect on LinkedIn
+    </a>
+    <small>Claude and Claude Code are trademarks of Anthropic. Other names are trademarks of their respective owners.</small>
+  </div>
+</footer>
+
+</body>
+</html>
